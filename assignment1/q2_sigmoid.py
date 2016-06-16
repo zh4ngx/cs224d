@@ -1,15 +1,17 @@
 import numpy as np
 
+
 def sigmoid(x):
     """
     Compute the sigmoid function for the input here.
     """
-    
+
     ### YOUR CODE HERE
-    raise NotImplementedError
+    x = 1 / (1 + np.exp(-x))
     ### END YOUR CODE
-    
+
     return x
+
 
 def sigmoid_grad(f):
     """
@@ -17,12 +19,13 @@ def sigmoid_grad(f):
     for this implementation, the input f should be the sigmoid
     function value of your original input x. 
     """
-    
+
     ### YOUR CODE HERE
-    raise NotImplementedError
+    f = f * (1 - f)
     ### END YOUR CODE
-    
+
     return f
+
 
 def test_sigmoid_basic():
     """
@@ -34,14 +37,15 @@ def test_sigmoid_basic():
     f = sigmoid(x)
     g = sigmoid_grad(f)
     print f
-    assert np.amax(f - np.array([[0.73105858, 0.88079708], 
-        [0.26894142, 0.11920292]])) <= 1e-6
+    assert np.amax(f - np.array([[0.73105858, 0.88079708],
+                                 [0.26894142, 0.11920292]])) <= 1e-6
     print g
     assert np.amax(g - np.array([[0.19661193, 0.10499359],
-        [0.19661193, 0.10499359]])) <= 1e-6
+                                 [0.19661193, 0.10499359]])) <= 1e-6
     print "You should verify these results!\n"
 
-def test_sigmoid(): 
+
+def test_sigmoid():
     """
     Use this space to test your sigmoid implementation by running:
         python q2_sigmoid.py 
@@ -50,8 +54,21 @@ def test_sigmoid():
     """
     print "Running your tests..."
     ### YOUR CODE HERE
-    raise NotImplementedError
+    x = np.array([[0, 0, 0]])
+    f = sigmoid(x)
+    g = sigmoid_grad(f)
+
+    print f
+    assert np.all(np.equal(f, np.array([
+        [.5, .5, .5],
+    ])))
+    print "gradient"
+    print g
+    assert np.all(np.equal(g, np.array([
+        [.25, .25, .25]
+    ])))
     ### END YOUR CODE
+
 
 if __name__ == "__main__":
     test_sigmoid_basic();
