@@ -23,7 +23,14 @@ def gradcheck_naive(f, x):
         ### make sure you call random.setstate(rndstate) before calling f(x) each time, this will make it 
         ### possible to test cost functions with built in randomness later
         ### YOUR CODE HERE:
-        raise NotImplementedError
+        x[ix] += h # increment by h
+        random.setstate(rndstate)
+        fxh, _ = f(x) # evalute f(x + h)
+        x[ix] -= 2 * h # restore to previous value (very important!)
+        random.setstate(rndstate)
+        fxnh, _ = f(x)
+        x[ix] += h
+        numgrad = (fxh - fxnh) / 2 / h
         ### END YOUR CODE
 
         # Compare gradients
@@ -59,7 +66,8 @@ def your_sanity_checks():
     """
     print "Running your sanity checks..."
     ### YOUR CODE HERE
-    raise NotImplementedError
+    foo = lambda x: (x ** 2, 2 * x)
+    gradcheck_naive(foo, np.array(300.455))
     ### END YOUR CODE
 
 if __name__ == "__main__":
