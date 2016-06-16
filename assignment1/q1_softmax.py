@@ -1,6 +1,7 @@
 import numpy as np
 import random
 
+
 def softmax(x):
     """
     Compute the softmax function for each row of the input x.
@@ -21,12 +22,22 @@ def softmax(x):
     """
 
     ### YOUR CODE HERE
-    x = np.exp(x)
-    sum = np.sum(x)
-    x = x / sum
+    if len(x.shape) > 1:
+        tmp = np.max(x, axis=1)
+        x -= tmp.reshape((-1, 1))
+        x = np.exp(x)
+        tmp = np.sum(x, axis=1)
+        x /= tmp.reshape((-1, 1))
+    else:
+        tmp = np.max(x)
+        x -= tmp
+        x = np.exp(x)
+        tmp = np.sum(x)
+        x /= tmp
     ### END YOUR CODE
-    
+
     return x
+
 
 def test_softmax_basic():
     """
@@ -34,22 +45,23 @@ def test_softmax_basic():
     Warning: these are not exhaustive.
     """
     print "Running basic tests..."
-    test1 = softmax(np.array([1,2]))
+    test1 = softmax(np.array([1, 2]))
     print test1
     assert np.amax(np.fabs(test1 - np.array(
-        [0.26894142,  0.73105858]))) <= 1e-6
+        [0.26894142, 0.73105858]))) <= 1e-6
 
     test2 = softmax(np.array([[1001, 1002], [3, 4]]))
     print test2
     assert np.amax(np.fabs(test2 - np.array(
         [[0.26894142, 0.73105858], [0.26894142, 0.73105858]]))) <= 1e-6
 
-    test3 = softmax(np.array([[-1001,-1002]]))
+    test3 = softmax(np.array([[-1001, -1002]]))
     print test3
     assert np.amax(np.fabs(test3 - np.array(
         [0.73105858, 0.26894142]))) <= 1e-6
 
     print "You should verify these results!\n"
+
 
 def test_softmax():
     """ 
@@ -60,12 +72,29 @@ def test_softmax():
     """
     print "Running your tests..."
     ### YOUR CODE HERE
+    print "Vector softmax"
     x = softmax(np.array([1., 1., 1.]))
     print x
-    y = np.array([1/3., 1/3., 1/3.])
+    y = np.array([1 / 3., 1 / 3., 1 / 3.])
+    print y
+    assert np.all(np.equal(x, y))
+
+    print "Matrix softmax"
+    x = softmax(np.array([[1., 1., 1.], [2., 2., 2.]]))
+    print x
+    y = np.array([[1 / 3., 1 / 3., 1 / 3.], [1 / 3., 1 / 3., 1 / 3.]])
+    print y
+    assert np.all(np.equal(x, y))
+
+    print "Matrix softmax with 0s"
+    x = softmax(np.array([[1., 1., 1.], [1., 0., 1.]]))
+    print x
+    y = np.array([[1 / 3., 1 / 3., 1 / 3.],
+                  [np.exp(1) / (2 * np.exp(1) + 1), 1 / (2 * np.exp(1) + 1), np.exp(1) / (2 * np.exp(1) + 1)]])
     print y
     assert np.all(np.equal(x, y))
     ### END YOUR CODE  
+
 
 if __name__ == "__main__":
     test_softmax_basic()
