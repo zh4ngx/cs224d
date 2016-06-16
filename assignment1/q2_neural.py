@@ -28,7 +28,8 @@ def forward_backward_prop(data, labels, params, dimensions):
 
     ### YOUR CODE HERE: forward propagation
     hidden = sigmoid(data.dot(W1) + b1)
-    output = softmax(hidden.dot(W2) + b2)
+    logit = hidden.dot(W2) + b2
+    output = softmax(logit)
     cost = -np.sum(np.log(output) * labels)
     ### END YOUR CODE
 
@@ -36,9 +37,10 @@ def forward_backward_prop(data, labels, params, dimensions):
     dCost_dOutput = output - labels
     gradW2 = hidden.T.dot(dCost_dOutput)
     gradb2 = np.sum(dCost_dOutput, axis=0)
-    dCost_dHidden = dCost_dOutput.dot(W2.T) * sigmoid_grad(hidden)
-    gradW1 = data.T.dot(dCost_dHidden)
-    gradb1 = np.sum(dCost_dHidden, axis=0)
+    dOutput_dLogit = dCost_dOutput.dot(W2.T)
+    dLogit_dHidden = dOutput_dLogit * sigmoid_grad(hidden)
+    gradW1 = data.T.dot(dLogit_dHidden)
+    gradb1 = np.sum(dLogit_dHidden, axis=0)
     ### END YOUR CODE
 
     ### Stack gradients (do not modify)
@@ -78,7 +80,13 @@ def your_sanity_checks():
     """
     print "Running your sanity checks..."
     ### YOUR CODE HERE
-    sanity_check()
+    input = np.array([[0.5, 0.3, -1.5, 0.0, -0.2]])
+    labels = np.array([[0.2, 0.2, 0.2, 0.2, 0.2]])
+    dimensions = [5, 3, 5]
+
+    params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (dimensions[1] + 1) * dimensions[2], )
+
+    gradcheck_naive(lambda params: forward_backward_prop(input, labels, params, dimensions), params)
     ### END YOUR CODE
 
 
