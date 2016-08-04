@@ -34,13 +34,12 @@ def forward_backward_prop(data, labels, params, dimensions):
     ### END YOUR CODE
 
     ### YOUR CODE HERE: backward propagation
-    dCost_dOutput = output - labels
-    gradW2 = hidden.T.dot(dCost_dOutput)
-    gradb2 = np.sum(dCost_dOutput, axis=0)
-    dOutput_dLogit = dCost_dOutput.dot(W2.T)
-    dLogit_dHidden = dOutput_dLogit * sigmoid_grad(hidden)
-    gradW1 = data.T.dot(dLogit_dHidden)
-    gradb1 = np.sum(dLogit_dHidden, axis=0)
+    delta_3 = output - labels
+    gradW2 = hidden.T.dot(delta_3)
+    gradb2 = np.sum(delta_3, axis=0)
+    delta_2 = delta_3.dot(W2.T) * sigmoid_grad(hidden)
+    gradW1 = data.T.dot(delta_2)
+    gradb1 = np.sum(delta_2, axis=0)
     ### END YOUR CODE
 
     ### Stack gradients (do not modify)
