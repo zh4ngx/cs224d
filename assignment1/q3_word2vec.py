@@ -51,7 +51,30 @@ def softmaxCostAndGradient(predicted, target, outputVectors, dataset):
     # assignment!                                                  
     
     ### YOUR CODE HERE
-    raise NotImplementedError
+    z = predicted.dot(outputVectors.T)
+    y_hat = softmax(z)
+    cost = - np.log(y_hat[target])
+
+    # delta = y_hat - y
+    delta = y_hat
+    delta[target] -= 1
+
+    # get gradient shapes from the jacobian
+    # N is the size of the vocabulary (your output dim)
+    # D is the size of the word vector
+    N = delta.shape[0]
+    print("Vocabulary size and dim of delta error signal N:", N)
+    D = predicted.shape[0]
+    print("Word vector dim D:", D)
+
+    # outputVectors = U
+    # dJ/dv_c = delta*U^T - tranpose of jacobian
+    gradPred = delta.dot(outputVectors)
+
+    # gradient wrt all other word vectors
+    # dJ/du_w = delta * predicted^T
+    grad = np.outer(delta, predicted)
+
     ### END YOUR CODE
     
     return cost, gradPred, grad
