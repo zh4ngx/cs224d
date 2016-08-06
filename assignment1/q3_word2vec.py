@@ -51,7 +51,7 @@ def softmaxCostAndGradient(predicted, target, outputVectors, dataset):
     # assignment!                                                  
     
     ### YOUR CODE HERE
-    z = predicted.dot(outputVectors.T)
+    z = outputVectors.dot(predicted)
     y_hat = softmax(z)
     cost = - np.log(y_hat[target])
 
