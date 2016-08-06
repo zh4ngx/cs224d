@@ -67,6 +67,11 @@ def your_sanity_checks():
     ### YOUR CODE HERE
     foo = lambda x: (x ** 2, 2 * x)
     gradcheck_naive(foo, np.array(300.455))
+    bar = lambda x: (np.exp(x), np.exp(x))
+    gradcheck_naive(bar, np.array([[5, 2, 1], [3, 3, 2]]))
+
+    bar = lambda x: (np.exp(x ** 2), np.exp(x ** 2) * 2 * x)
+    gradcheck_naive(bar, np.array([5, 2, 1]))
     ### END YOUR CODE
 
 if __name__ == "__main__":
