@@ -148,7 +148,7 @@ def skipgram(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     # Implement the skip-gram model in this function.
 
     # Inputs:                                                         
-    # - currrentWord: a string of the current center word           
+    # - currentWord: a string of the current center word
     # - C: integer, context size                                    
     # - contextWords: list of no more than 2*C strings, the context words                                               
     # - tokens: a dictionary that maps words to their indices in    
@@ -168,7 +168,19 @@ def skipgram(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     # assignment!
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    currentIdx = tokens[currentWord]
+    predicted = inputVectors[currentIdx]
+
+    cost = 0.0
+    gradIn = np.zeros(inputVectors.shape)
+    gradOut = np.zeros(outputVectors.shape)
+
+    for contextWord in contextWords:
+        idx = tokens[contextWord]
+        contextCost, gradPredict, gradOther = word2vecCostAndGradient(predicted, idx, outputVectors, dataset)
+        cost += contextCost
+        gradOut += gradOther
+        gradIn[currentIdx] += gradPredict
     ### END YOUR CODE
     
     return cost, gradIn, gradOut
