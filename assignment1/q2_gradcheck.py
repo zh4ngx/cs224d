@@ -49,12 +49,12 @@ def sanity_check():
     """
     Some basic sanity checks.
     """
-    quad = lambda x: (np.sum(x ** 2), x * 2)
+    quad = lambda x: (np.sum(np.power(x, 2)), x * 2)
 
     print("Running sanity checks...")
     gradcheck_naive(quad, np.array(123.456))      # scalar test
     gradcheck_naive(quad, np.random.randn(3,))    # 1-D test
-    gradcheck_naive(quad, np.random.randn(4,5))   # 2-D test
+    gradcheck_naive(quad, np.random.randn(4, 5))   # 2-D test
     print("")
 
 def your_sanity_checks(): 
@@ -66,13 +66,13 @@ def your_sanity_checks():
     """
     print("Running your sanity checks...")
     ### YOUR CODE HERE
-    foo = lambda x: (x ** 2, 2 * x)
-    gradcheck_naive(foo, np.array(300.455))
-    bar = lambda x: (np.exp(x), np.exp(x))
-    gradcheck_naive(bar, np.array([[5, 2, 1], [3, 3, 2]]))
+    foo = lambda x: (np.sum(np.power(x, 2)), 2 * x)
+    gradcheck_naive(foo, np.array([300.455, 3.5]))
+    bar = lambda x: (np.sum(np.exp(x)), np.exp(x))
+    gradcheck_naive(bar, np.array([[5., 2., 1.], [3., 3., 2.]]))
 
-    bar = lambda x: (np.exp(x ** 2), np.exp(x ** 2) * 2 * x)
-    gradcheck_naive(bar, np.array([5, 2, 1]))
+    baz = lambda x: (np.sum(np.exp(x ** 2)), np.exp(x ** 2) * 2 * x)
+    gradcheck_naive(baz, np.array([3., 2., 1.]))
     ### END YOUR CODE
 
 if __name__ == "__main__":
