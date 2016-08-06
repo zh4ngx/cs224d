@@ -27,17 +27,18 @@ def forward_backward_prop(data, labels, params, dimensions):
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
     ### YOUR CODE HERE: forward propagation
-    hidden = sigmoid(data.dot(W1) + b1)
-    logit = hidden.dot(W2) + b2
-    output = softmax(logit)
-    cost = -np.sum(np.log(output) * labels)
+    z_1 = data.dot(W1) + b1
+    h = sigmoid(z_1)
+    z_2 = h.dot(W2) + b2
+    y_hat = softmax(z_2)
+    cost = -np.sum(np.log(y_hat) * labels)
     ### END YOUR CODE
 
     ### YOUR CODE HERE: backward propagation
-    delta_3 = output - labels
-    gradW2 = hidden.T.dot(delta_3)
+    delta_3 = y_hat - labels
+    gradW2 = h.T.dot(delta_3)
     gradb2 = np.sum(delta_3, axis=0)
-    delta_2 = delta_3.dot(W2.T) * sigmoid_grad(hidden)
+    delta_2 = delta_3.dot(W2.T) * sigmoid_grad(h)
     gradW1 = data.T.dot(delta_2)
     gradb1 = np.sum(delta_2, axis=0)
     ### END YOUR CODE
