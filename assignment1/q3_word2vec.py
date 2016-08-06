@@ -10,7 +10,8 @@ def normalizeRows(x):
     # Implement a function that normalizes each row of a matrix to have unit length
     
     ### YOUR CODE HERE
-    raise NotImplementedError
+    l2_norms = np.linalg.norm(x, axis=1)
+    x /= l2_norms
     ### END YOUR CODE
     
     return x
