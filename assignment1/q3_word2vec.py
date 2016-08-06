@@ -95,7 +95,47 @@ def negSamplingCostAndGradient(predicted, target, outputVectors, dataset,
     # assignment!
     
     ### YOUR CODE HERE
-    raise NotImplementedError
+    # initialize gradients since updates will be sparse
+    gradPred = np.zeros(predicted.shape)
+    grad = np.zeros(outputVectors.shape)
+    # log(sigmoid(u_o^T v_c))
+    z_pos = outputVectors[target].dot(predicted)
+    p_pos = sigmoid(z_pos)
+    log_p_pos = np.log(p_pos)
+
+    # Sum over K of log(sigmoid(-u_k^T v_c))
+    sum_neg = 0
+    ns_idxs = np.zeros(K)
+    neg_sample_deltas = np.zeros(K)
+    for i in range(K):
+        ns_idx = dataset.sampleTokenIdx()
+        while ns_idx == target:
+            ns_idx = dataset.sampleTokenIdx()
+        z_neg = - outputVectors[ns_idx].dot(predicted)
+        p_neg = sigmoid(z_neg)
+        log_p_neg = np.log(p_neg)
+
+        sum_neg += log_p_neg
+        # bookeeping for gradients
+        ns_idxs[i] = ns_idx
+        neg_sample_deltas[i] = p_neg - 1
+
+    cost = - log_p_pos - sum_neg
+
+    # dJ/dv_c
+    # (sigmoid(u_o^T v_c) - 1) u_o
+    delta_pos = p_pos - 1
+    gradPred += (delta_pos) * outputVectors[target]
+    for i in range(K):
+        gradPred -= (neg_sample_deltas[i]) * outputVectors[ns_idxs[i]]
+
+    # dJ/du_o
+    grad[target] = (delta_pos) * predicted
+
+    # dJ/du_k
+    for i in range(K):
+        grad[ns_idxs[i]] += - neg_sample_deltas[i] * predicted
+
     ### END YOUR CODE
     
     return cost, gradPred, grad
