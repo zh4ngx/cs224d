@@ -63,9 +63,7 @@ def softmaxCostAndGradient(predicted, target, outputVectors, dataset):
     # N is the size of the vocabulary (your output dim)
     # D is the size of the word vector
     N = delta.shape[0]
-    print(("Vocabulary size and dim of delta error signal N:", N))
     D = predicted.shape[0]
-    print(("Word vector dim D:", D))
 
     # outputVectors = U
     # dJ/dv_c = delta*U^T - tranpose of jacobian
