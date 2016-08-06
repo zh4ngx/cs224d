@@ -44,23 +44,23 @@ def test_softmax_basic():
     Some simple tests to get you started. 
     Warning: these are not exhaustive.
     """
-    print "Running basic tests..."
+    print("Running basic tests...")
     test1 = softmax(np.array([1, 2]))
-    print test1
+    print(test1)
     assert np.amax(np.fabs(test1 - np.array(
         [0.26894142, 0.73105858]))) <= 1e-6
 
     test2 = softmax(np.array([[1001, 1002], [3, 4]]))
-    print test2
+    print(test2)
     assert np.amax(np.fabs(test2 - np.array(
         [[0.26894142, 0.73105858], [0.26894142, 0.73105858]]))) <= 1e-6
 
     test3 = softmax(np.array([[-1001, -1002]]))
-    print test3
+    print(test3)
     assert np.amax(np.fabs(test3 - np.array(
         [0.73105858, 0.26894142]))) <= 1e-6
 
-    print "You should verify these results!\n"
+    print("You should verify these results!\n")
 
 
 def test_softmax():
@@ -70,28 +70,28 @@ def test_softmax():
     This function will not be called by the autograder, nor will
     your tests be graded.
     """
-    print "Running your tests..."
+    print("Running your tests...")
     ### YOUR CODE HERE
-    print "Vector softmax"
+    print("Vector softmax")
     x = softmax(np.array([1., 1., 1.]))
-    print x
+    print(x)
     y = np.array([1 / 3., 1 / 3., 1 / 3.])
-    print y
+    print(y)
     assert np.all(np.equal(x, y))
 
-    print "Matrix softmax"
+    print("Matrix softmax")
     x = softmax(np.array([[1., 1., 1.], [2., 2., 2.]]))
-    print x
+    print(x)
     y = np.array([[1 / 3., 1 / 3., 1 / 3.], [1 / 3., 1 / 3., 1 / 3.]])
-    print y
+    print(y)
     assert np.all(np.equal(x, y))
 
-    print "Matrix softmax with 0s"
+    print("Matrix softmax with 0s")
     x = softmax(np.array([[1., 1., 1.], [1., 0., 1.]]))
-    print x
+    print(x)
     y = np.array([[1 / 3., 1 / 3., 1 / 3.],
                   [np.exp(1) / (2 * np.exp(1) + 1), 1 / (2 * np.exp(1) + 1), np.exp(1) / (2 * np.exp(1) + 1)]])
-    print y
+    print(y)
     assert np.all(np.equal(x, y))
     ### END YOUR CODE  
 
