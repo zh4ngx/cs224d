@@ -22,18 +22,11 @@ def softmax(x):
     """
 
     ### YOUR CODE HERE
-    if len(x.shape) > 1:
-        tmp = np.max(x, axis=1)
-        x -= tmp.reshape((-1, 1))
-        x = np.exp(x)
-        tmp = np.sum(x, axis=1)
-        x /= tmp.reshape((-1, 1))
-    else:
-        tmp = np.max(x)
-        x -= tmp
-        x = np.exp(x)
-        tmp = np.sum(x)
-        x /= tmp
+    max = np.max(x, axis=-1).reshape((-1, 1))
+    x = x - max
+    x = np.exp(x)
+    sum = np.sum(x, axis=-1).reshape((-1, 1))
+    x = x / sum
     ### END YOUR CODE
 
     return x
