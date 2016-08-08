@@ -205,6 +205,19 @@ def cbow(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     gradOut = np.zeros(outputVectors.shape)
 
     ### YOUR CODE HERE
+    predicted = np.zeros(inputVectors.shape[1])
+
+    # Sum up input context words \hat v = \sum_{-m <= j <= m, j != 0} v_{c+j}
+    for contextWord in contextWords:
+        idx = tokens[contextWord]
+        predicted += inputVectors[idx]
+
+    cost, gradPredict, gradOut = word2vecCostAndGradient(predicted, tokens[currentWord], outputVectors, dataset)
+
+    # Collect gradient for all the input context words
+    for contextWord in contextWords:
+        idx = tokens[contextWord]
+        gradIn[idx] += gradPredict
     ### END YOUR CODE
     
     return cost, gradIn, gradOut
