@@ -125,16 +125,16 @@ def negSamplingCostAndGradient(predicted, target, outputVectors, dataset,
     # dJ/dv_c
     # (sigmoid(u_o^T v_c) - 1) u_o
     delta_pos = p_pos - 1
-    gradPred += (delta_pos) * outputVectors[target]
+    gradPred += delta_pos * outputVectors[target]
     for i in range(K):
-        gradPred -= (neg_sample_deltas[i]) * outputVectors[ns_idxs[i]]
+        gradPred -= neg_sample_deltas[i] * outputVectors[ns_idxs[i]]
 
     # dJ/du_o
-    grad[target] = (delta_pos) * predicted
+    grad[target] = delta_pos * predicted
 
     # dJ/du_k
     for i in range(K):
-        grad[ns_idxs[i]] += - neg_sample_deltas[i] * predicted
+        grad[ns_idxs[i]] -= neg_sample_deltas[i] * predicted
 
     ### END YOUR CODE
     
