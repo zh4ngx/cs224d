@@ -196,7 +196,7 @@ def cbow(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     # assignment!
 
     #################################################################
-    # IMPLEMENTING CBOW IS EXTRA CREDIT, DERIVATIONS IN THE WRIITEN #
+    # IMPLEMENTING CBOW IS EXTRA CREDIT, DERIVATIONS IN THE WRITTEN #
     # ASSIGNMENT ARE NOT!                                           #  
     #################################################################
     
