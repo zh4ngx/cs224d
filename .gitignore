@@ -40,3 +40,4 @@ tmtagsHistory
 *.sublime-workspace
 .bundle
 .ipynb_checkpoints
+datasets/
