@@ -122,8 +122,8 @@ def your_sanity_checks():
     """
     print("Running your sanity checks...")
     ### YOUR CODE HERE
-    bar = lambda x: (np.sum(np.exp(x)), np.exp(x))
-    t4 = sgd(bar, 0.5, 0.01, 1000, PRINT_EVERY=100)
+    baz = lambda x: (np.sum(np.exp(x ** 2)), np.exp(x ** 2) * 2 * x)
+    t4 = sgd(baz, 0.5, 0.01, 1000, PRINT_EVERY=100)
     print("test 4 result:", t4)
     assert abs(t4) <= 1e-6
     ### END YOUR CODE
