@@ -23,7 +23,10 @@ def getSentenceFeature(tokens, wordVectors, sentence):
     sentVector = np.zeros((wordVectors.shape[1],))
     
     ### YOUR CODE HERE
-    raise NotImplementedError
+    for word in sentence:
+        idx = tokens[word]
+        embedding = wordVectors[idx]
+        sentVector += embedding
     ### END YOUR CODE
     
     return sentVector
