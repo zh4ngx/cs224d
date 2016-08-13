@@ -23,10 +23,8 @@ def getSentenceFeature(tokens, wordVectors, sentence):
     sentVector = np.zeros((wordVectors.shape[1],))
     
     ### YOUR CODE HERE
-    for word in sentence:
-        idx = tokens[word]
-        embedding = wordVectors[idx]
-        sentVector += embedding
+    indices = [tokens[word] for word in sentence]
+    sentVector = np.mean(wordVectors[indices], axis=0)
     ### END YOUR CODE
     
     return sentVector
