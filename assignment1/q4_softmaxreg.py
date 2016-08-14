@@ -56,7 +56,28 @@ def softmaxRegression(features, labels, weights, regularization = 0.0, nopredict
     cost += 0.5 * regularization * np.sum(weights ** 2)
     
     ### YOUR CODE HERE: compute the gradients and predictions
-    raise NotImplementedError
+    # NOTE - N is the batch size
+    # features is an N x M matrix, M being # features
+    # weights is an M X K matrix, K being # classes
+    # prob is an N x K matrix (batchSize x classes)
+    # labels is a 1-hot (row) vector
+
+    # Get delta, an N x K matrix with CE error signal
+    # z = XW, where X = features and W = weights
+    # dJ/dz
+    delta = np.array(prob)
+    delta[range(N), labels] -= 1.
+
+    # dz/dW = 1/N * X * delta
+    # dJ/dW = dJ/dz * dz/dW
+    grad = features.T.dot(delta) / N
+
+    grad += regularization * weights
+
+    if N > 1:
+        pred = np.argmax(prob, axis=1)
+    else:
+        pred = np.argmax(prob)
     ### END YOUR CODE
     
     if nopredictions:
