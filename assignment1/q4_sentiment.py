@@ -86,7 +86,9 @@ BEST_REGULARIZATION = None
 BEST_WEIGHTS = None
 
 ### YOUR CODE HERE 
-raise NotImplementedError
+best_result = max(results, key=lambda result: result["dev"])
+BEST_REGULARIZATION = best_result["reg"]
+BEST_WEIGHTS = best_result["weights"]
 ### END YOUR CODE
 
 # Test your findings on the test set
