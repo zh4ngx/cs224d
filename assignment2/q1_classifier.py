@@ -132,10 +132,11 @@ class SoftmaxModel(Model):
       out: A tensor of shape (batch_size, n_classes)
     """
     ### YOUR CODE HERE
-    W = tf.get_variable("W", shape=(self.config.n_classes, self.config.n_features))
-    b = tf.get_variable("b", shape=(self.config.n_classes))
-    logits = tf.matmul(input_data, W, transpose_b=True) + b
-    out = softmax(logits)
+    with tf.variable_scope("softmax_linear"):
+      W = tf.get_variable("W", shape=(self.config.n_classes, self.config.n_features))
+      b = tf.get_variable("b", shape=(self.config.n_classes))
+      logits = tf.matmul(input_data, W, transpose_b=True) + b
+      out = softmax(logits)
     ### END YOUR CODE
     return out
 
