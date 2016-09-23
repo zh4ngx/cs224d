@@ -24,7 +24,18 @@ def xavier_weight_init():
       out: tf.Tensor of specified shape sampled from Xavier distribution.
     """
     ### YOUR CODE HERE
-    raise NotImplementedError
+    import uuid
+    name = kwargs.get("name", uuid.uuid4().hex.upper()[:6])
+    dim_sum = sum(shape)
+    epsilon = np.sqrt(6) / np.sqrt(dim_sum)
+    out = tf.get_variable(
+      name=name,
+      shape=shape,
+      initializer=tf.random_uniform_initializer(
+        minval=-epsilon,
+        maxval=epsilon
+      )
+    )
     ### END YOUR CODE
     return out
   # Returns defined initializer function.
@@ -54,8 +65,20 @@ def test_initialization():
   """
   print("Running your tests...")
   ### YOUR CODE HERE
-  raise NotImplementedError
-  ### END YOUR CODE  
+  sess = tf.Session()
+  xavier_initializer = xavier_weight_init()
+  shape = (4, 4)
+  xavier_mat = xavier_initializer(shape)
+  assert xavier_mat.get_shape() == shape
+  max_tensor = tf.reduce_max(tf.abs(xavier_mat))
+  assert max_tensor.get_shape().ndims == 0
+  sess.run(tf.initialize_all_variables())
+  max_value = sess.run(max_tensor)
+  xavier_max = (np.sqrt(6) / np.sqrt(8))
+  print("Checking tensor: {2} -> Got a max of {0}, expected max no more than {1}".format(max_value, xavier_max, xavier_mat.name))
+  assert max_value < xavier_max
+  ### END YOUR CODE
 
 if __name__ == "__main__":
     test_initialization_basic()
+    test_initialization()
